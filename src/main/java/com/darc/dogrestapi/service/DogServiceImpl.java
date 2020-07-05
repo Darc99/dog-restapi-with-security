@@ -1,6 +1,7 @@
 package com.darc.dogrestapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.darc.dogrestapi.entity.Dog;
 import com.darc.dogrestapi.repository.DogRepository;
@@ -23,7 +24,9 @@ public class DogServiceImpl implements DogService {
     }
 
     public String retrieveDogBreedById(Long id) {
-        return (String) dogRepository.findBreedById(id);
+        Optional<String> optionalBreed = Optional.ofNullable(dogRepository.findBreedById(id));
+        String breed = optionalBreed.orElseThrow(DogNotFoundException::new);
+        return breed;
     }
 
     public List<String> retrieveDogNames() {
